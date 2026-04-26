@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>星辰健康管理系统 - 温馨治愈的智能健康管家</title>
+    <style>
+        :root {
+            --primary-color: #4CAF50; /* 灵感来自微信绿，调柔和以符合治愈系 */
+            --secondary-color: #81C784;
+            --bg-color: #F9FAFB;
+            --text-main: #333333;
+            --text-light: #666666;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* 导航栏 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10%;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            margin-left: 30px;
+            font-size: 15px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* 首屏展示 */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 22px;
+            color: var(--text-light);
+            max-width: 800px;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .btn-group {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 30px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #43A047;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--text-main);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--text-main);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* 内容区块 */
+        .section {
+            padding: 120px 10%;
+            background-color: var(--white);
+        }
+
+        .section-alt {
+            background-color: var(--bg-color);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 60px;
+        }
+
+        /* 特色功能网格 - 修改为严格的 3+3 排列 */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 强制分为3列 */
+            gap: 40px;
+        }
+
+        /* 响应式适配：屏幕较小的时候转为两列或单列 */
+        @media (max-width: 900px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-card {
+            background: var(--white);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            margin: 0 auto 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: var(--text-light);
+            font-size: 15px;
+        }
+
+        /* 技术栈列表 */
+        .tech-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .tech-tag {
+            padding: 10px 25px;
+            background: var(--white);
+            border: 1px solid #E0E0E0;
+            border-radius: 30px;
+            font-size: 16px;
+            color: var(--text-light);
+            transition: all 0.3s;
+        }
+        
+        .tech-tag:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* 页脚 */
+        .footer {
+            background-color: var(--text-main);
+            color: var(--white);
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .footer p {
+            opacity: 0.7;
+            font-size: 14px;
+        }
+
+        /* 动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="#" class="nav-logo">星辰健康</a>
+        <div class="nav-links">
+            <a href="#home">首页</a>
+            <a href="#features">核心特色</a>
+            <a href="#architecture">功能架构</a>
+            <a href="#tech">技术栈</a>
+        </div>
+    </nav>
+
+    <!-- 首屏展示 -->
+    <section id="home" class="hero">
+        <h1>星辰健康管理系统</h1>
+        <p>基于 Spring Boot + Vue3 的智能健康管理系统，融合健康打卡、积分激励、AI 健康助手等核心功能，以温馨治愈风格为您提供全方位的健康管理服务。</p>
+        <div class="btn-group">
+            <a href="#features" class="btn btn-primary">探索功能</a>
+            <a href="https://github.com/tangrui13131/xingcheng_TR_v3.0" target="_blank" class="btn btn-outline">GitHub 源码</a>
+        </div>
+    </section>
+
+    <!-- 核心特色 (现已固定为 3+3 排列) -->
+    <section id="features" class="section">
+        <h2 class="section-title">项目特色</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🌿</div>
+                <h3>温馨治愈风格 UI</h3>
+                <p>用户端采用柔和配色与圆角设计，营造温暖舒适的使用体验。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3>积分激励体系</h3>
+                <p>通过每日打卡获取积分，积分可兑换健康商品，形成正向健康习惯闭环。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI 健康助手</h3>
+                <p>集成智能对话功能，为用户提供个性化的健康咨询与建议。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>健康数据可视化</h3>
+                <p>基于 ECharts 的多维度健康数据图表展示，直观了解健康状况。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>完善的权限管理</h3>
+                <p>基于 RBAC 的细粒度权限控制，支持菜单级、按钮级权限配置。</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>多层安全防护</h3>
+                <p>内置 XSS 过滤、重复提交拦截、敏感信息脱敏等多层安全机制。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 功能架构 -->
+    <section id="architecture" class="section section-alt">
+        <h2 class="section-title">面向双端，全面覆盖</h2>
+        <!-- 此处覆盖默认的3列，保持左右两列对比 -->
+        <div class="features-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); max-width: 900px; margin: 0 auto;">
+            <div class="feature-card" style="text-align: left;">
+                <h3 style="text-align: center; color: var(--primary-color);">普通用户端</h3>
+                <ul style="padding-left: 20px; margin-top: 20px; color: var(--text-light); line-height: 2;">
+                    <li><strong>健康打卡：</strong> 每日打卡 / 打卡记录 / 打卡提醒</li>
+                    <li><strong>积分管理：</strong> 积分获取 / 积分查询 / 积分明细</li>
+                    <li><strong>商品兑换：</strong> 商品浏览 / 积分兑换 / 兑换记录</li>
+                    <li><strong>健康数据：</strong> 健康数据查看 / 数据导出</li>
+                    <li><strong>AI 助手：</strong> 智能健康咨询 / 对话记录</li>
+                </ul>
+            </div>
+            <div class="feature-card" style="text-align: left;">
+                <h3 style="text-align: center; color: var(--text-main);">管理后台端</h3>
+                <ul style="padding-left: 20px; margin-top: 20px; color: var(--text-light); line-height: 2;">
+                    <li><strong>权限管理：</strong> 用户管理 / 角色管理 / 菜单管理</li>
+                    <li><strong>健康管理：</strong> 健康数据看板 / 积分管理 / 兑换审核</li>
+                    <li><strong>系统管理：</strong> 参数配置 / 字典管理</li>
+                    <li><strong>监控告警：</strong> 在线用户 / 操作日志 / 登录日志</li>
+                    <li><strong>定时任务：</strong> 任务调度 / 日志查看</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技术栈 -->
+    <section id="tech" class="section">
+        <h2 class="section-title">前沿技术支撑</h2>
+        <div class="tech-list" style="max-width: 800px; margin: 0 auto;">
+            <div class="tech-tag">Spring Boot 4.0.3</div>
+            <div class="tech-tag">Vue 3.x</div>
+            <div class="tech-tag">MyBatis 4.0.1</div>
+            <div class="tech-tag">MySQL 8.0+</div>
+            <div class="tech-tag">Vite 5.x</div>
+            <div class="tech-tag">Element Plus</div>
+            <div class="tech-tag">ECharts 6.x</div>
+            <div class="tech-tag">Spring Security & JWT</div>
+            <div class="tech-tag">Redis 6.0+</div>
+            <div class="tech-tag">JDK 17+</div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <p>星辰健康管理系统 - 基于若依开源框架开发</p>
+        <p style="margin-top: 10px;">开源协议：MIT License</p>
+    </footer>
+
+</body>
+</html>
